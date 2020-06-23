@@ -3,20 +3,20 @@ package main
 import (
 	"fmt"
 
-	"github.com/fabiendeborde/noas_projects/database"
-	"github.com/fabiendeborde/noas_projects/project"
+	"github.com/FabienDeborde/noas_projects/database"
+	"github.com/FabienDeborde/noas_projects/project"
 	"github.com/gofiber/fiber"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
 func setupRoutes(app *fiber.App) {
-	app.Get("api/v1/project", project.GetProjects)
-	app.Get("api/v1/project/:id", project.GetProject)
-	app.Post("api/v1/project", project.NewProject)
-	app.Delete("api/v1/project/:id", project.DeleteProject)
-	app.Post("api/v1/project/:id/like", project.AddLikeProject)
-	app.Post("api/v1/project/:id/unlike", project.RemoveLikeProject)
+	app.Get("api/v1/projects", project.GetProjects)
+	app.Get("api/v1/projects/:id", project.GetProject)
+	app.Post("api/v1/projects", project.NewProject)
+	app.Delete("api/v1/projects/:id", project.DeleteProject)
+	app.Post("api/v1/projects/:id/like", project.AddLikeProject)
+	app.Post("api/v1/projects/:id/unlike", project.RemoveLikeProject)
 }
 
 func initDatabase() {

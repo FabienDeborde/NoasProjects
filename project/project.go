@@ -1,7 +1,7 @@
 package project
 
 import (
-	"github.com/fabiendeborde/noas_projects/database"
+	"github.com/FabienDeborde/noas_projects/database"
 	"github.com/gofiber/fiber"
 	"github.com/jinzhu/gorm"
 )
