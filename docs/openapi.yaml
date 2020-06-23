@@ -1,0 +1,465 @@
+
+openapi: 3.0.3
+info:
+  title: Noa's Projects
+  version: 2.0.0
+  description: |-
+    A simple API to demonstrate basic CRUD operation with Fiber framework using Clean Architecture.
+    Contains also JWT authentication and simple WebSocket implentation.
+servers:
+  - url: 'http://localhost:4040/v1'
+    description: local environment endpoint
+security:
+  - jwt: []
+
+paths:
+  /login:
+    post:
+      security: [] # No security
+      summary: login endpoint
+      operationId: loginUser
+      tags:
+        - login
+      description: |-
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/postLoginRequest'
+            examples:
+              example:
+                $ref: '#/components/examples/postLoginRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postLoginResponse'
+              examples:
+                example:
+                  $ref: '#/components/examples/postLoginResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /projects:
+    get:
+      security: [] # No security
+      summary: Get Projects List
+      operationId: getProjects
+      tags:
+        - projects
+      description: |-
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getProjectsResponse'
+              examples:
+                example:
+                  $ref: '#/components/examples/getProjectsResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      summary: Post a new Project or Update one
+      operationId: postProject
+      tags:
+        - projects
+      description: |-
+
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/postProjectRequest'
+            examples:
+              example:
+                $ref: '#/components/examples/postProjectRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/PostSuccess'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /projects/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: Project ID
+        schema:
+          type: integer
+    get:
+      security: [] # No security
+      summary: Get a Project Details
+      operationId: getProject
+      tags:
+        - projects
+      description: |-
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getProjectsReponse'
+              examples:
+                example:
+                  $ref: '#/components/examples/getProjectsReponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      summary: Delete a Project
+      operationId: deleteProject
+      tags:
+        - projects
+      description: |-
+
+      responses:
+        '204':
+          $ref: '#/components/responses/EmptySuccess'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /projects/{id}/likes:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        description: Project ID
+        schema:
+          type: integer
+    post:
+      deprecated: true
+      security: [] # No security
+      summary: Update the number of likes of a project
+      operationId: postProjectLike
+      tags:
+        - projects
+      description: |-
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/postProjectLikeRequest'
+            examples:
+              example:
+                $ref: '#/components/examples/postProjectLikeRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/PostSuccess'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /projects/likes:
+    get:
+      deprecated: true
+      security: [] # No security
+      summary: Get the number of likes of each projects
+      operationId: getProjectsLikes
+      tags:
+        - projects
+      description: |-
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getProjectsLikesResponse'
+              examples:
+                example:
+                  $ref: '#/components/examples/getProjectsLikesResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  responses:
+    PostSuccess:
+      description: |-
+        The operation successfully ended
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PostSuccess'
+          example:
+            success: true
+            id: 1
+    EmptySuccess:
+      description: |-
+        The operation successfully ended
+    NotFound:
+      description: |-
+        The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 404
+            message: サーバが見つかりません
+    InternalServerError:
+      description: |-
+        Internal Server Error
+        処理のエラー、想定外のエラー
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 500
+            message: サーバ内部エラー
+  schemas:
+    postLoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+    postLoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            email:
+              type: string
+
+    getProjectsResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          title:
+            type: string
+          description:
+            type: string
+          link:
+            type: string
+          thumbnail:
+            type: string
+          updated_at:
+            type: string
+            format: date-time
+          created_at:
+            type: string
+            format: date-time
+    getProjectsReponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        link:
+          type: string
+        thumbnail:
+          type: string
+        likes:
+          type: integer
+        updated_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+
+    postProjectRequest:
+      type: object
+      required:
+        - data
+      properties:
+        thumbnail:
+          type: string
+          format: binary
+        data:
+          type: object
+          required:
+            - title
+            - link
+          properties:
+            id:
+              type: integer
+            title:
+              type: string
+            description:
+              type: string
+            link:
+              type: string
+
+    getProjectsLikesResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          1:
+            type: object
+            properties:
+              count:
+                type: integer
+                description: Number of likes of project id 1
+              like:
+                type: boolean
+                description: User like flag
+          2:
+            type: object
+            properties:
+              count:
+                type: integer
+                description: Number of likes of project id 2
+              like:
+                type: boolean
+                description: User like flag
+    postProjectLikeRequest:
+      type: object
+      required:
+        - like
+      properties:
+        like:
+          type: boolean
+
+    PostSuccess:
+      type: object
+      required:
+        - success
+        - id
+      properties:
+        success:
+          type: boolean
+        id:
+          type: integer
+    BulkPostSuccess:
+      type: object
+      required:
+        - success
+        - id
+      properties:
+        success:
+          type: boolean
+        ids:
+          type: array
+          items:
+            type: integer
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+
+  examples:
+    postLoginRequest:
+      summary: Login Request Example
+      value:
+        email: foo@foobar.xyz
+        password: password1
+    postLoginResponse:
+      summary: Login Response Example
+      value:
+        token: eyJ0eXAiOiJKV1QiLC
+        user:
+          id: 1
+          name: Foo Bar
+          email: foo@foobar.com
+
+    getProjectsResponse:
+      summary: Projects List Response Example
+      value:
+        - id: 1
+          title: My great first project
+          description: My first project ever using Scratch!
+          link: https://scratch.mit.edu/
+          thumbnail: https://uploads.scratch.mit.edu/projects/thumbnails/387898327.png
+          updated_at: 2020-06-23 15:30
+          created_at: 2020-05-13 10:30
+        - id: 2
+          title: My awesome second project
+          description: Second project, still using Scratch!
+          link: https://scratch.mit.edu/
+          thumbnail: https://uploads.scratch.mit.edu/projects/thumbnails/402567498.png
+          updated_at: 2020-06-23 19:30
+          created_at: 2020-05-13 11:30
+    getProjectsReponse:
+      summary: Project Details Response Example
+      value:
+        id: 2
+        title: My awesome second project
+        description: Second project, still using Scratch!
+        link: https://scratch.mit.edu/
+        thumbnail: https://uploads.scratch.mit.edu/projects/thumbnails/402567498.png
+        likes: 57
+        updated_at: 2020-06-23 19:30
+        created_at: 2020-05-13 11:30
+
+    postProjectRequest:
+      summary: Create or Update Project Request Example
+      value:
+        data:
+          title: My new project
+          description: A great project that just appeared out of my mind
+          link: https://google.com
+
+    getProjectsLikesResponse:
+      summary: Likes List by Project Response Example
+      value:
+        1:
+          count: 15
+          like: true
+        2:
+          count: 57
+          like: false
+    postProjectLikeRequest:
+      summary: Update Project Like Request Example
+      value:
+        like: true
+
+  securitySchemes:
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+tags:
+  - name: login
+    description: Authentication
+    x-tag-expanded: false
+  - name: projects
+    description: Projects
+    x-tag-expanded: false
