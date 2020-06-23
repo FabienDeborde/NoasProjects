@@ -3,13 +3,12 @@ package main
 import (
 	"fmt"
 
-	"github.com/fabiendeborde/noaproject_api/database"
-	"github.com/fabiendeborde/noaproject_api/project"
+	"github.com/fabiendeborde/noas_projects/database"
+	"github.com/fabiendeborde/noas_projects/project"
 	"github.com/gofiber/fiber"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
-
 
 func setupRoutes(app *fiber.App) {
 	app.Get("api/v1/project", project.GetProjects)
@@ -35,14 +34,14 @@ func initDatabase() {
 
 func main() {
 	app := fiber.New()
-	app.Use(func(c *fiber.Ctx) {
-    // IsWebSocketUpgrade returns true if the client
-    // requested upgrade to the WebSocket protocol.
-    if websocket.IsWebSocketUpgrade(c) {
-      c.Locals("allowed", true)
-      c.Next()
-    }
-  })
+	// app.Use(func(c *fiber.Ctx) {
+	//   // IsWebSocketUpgrade returns true if the client
+	//   // requested upgrade to the WebSocket protocol.
+	//   if websocket.IsWebSocketUpgrade(c) {
+	//     c.Locals("allowed", true)
+	//     c.Next()
+	//   }
+	// })
 	initDatabase()
 	defer database.DBConn.Close()
 
