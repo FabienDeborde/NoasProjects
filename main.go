@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/FabienDeborde/noas_projects/database"
@@ -9,23 +8,10 @@ import (
 	"github.com/FabienDeborde/noas_projects/utils/logger"
 
 	"github.com/gofiber/fiber"
-	"github.com/jinzhu/gorm"
+	"github.com/gofiber/fiber/middleware"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/joho/godotenv"
 )
-
-func initDatabase() {
-	var err error
-	database.DBConn, err = gorm.Open("sqlite3", "projects.db")
-	if err != nil {
-		panic("Failed to connect to database")
-	}
-	fmt.Println("Database connection successfully opened!")
-
-	database.DBConn.AutoMigrate(&project.Project{})
-	fmt.Println("Database migrated!")
-
-}
 
 func projectRoutes(group *fiber.Group) {
 	projects := group.Group("/projects") // /api/v1/projects
@@ -51,8 +37,10 @@ func main() {
 		ServerHeader: "Fiber",
 		BodyLimit:    4 * 1024 * 1024,
 	})
+	app.Use(middleware.Recover())
 
-	initDatabase()
+	database.Init()
+	database.DBConn.AutoMigrate(&project.Project{})
 	defer database.DBConn.Close()
 
 	// setupRoutes(app)
