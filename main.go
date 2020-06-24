@@ -28,7 +28,7 @@ func main() {
 
 	err := godotenv.Load()
 	if err != nil {
-		slogger.Fatal("Error loading .env file")
+		slogger.Error("Error loading .env file")
 	}
 
 	// Pass Settings creating a new instance
