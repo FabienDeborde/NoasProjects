@@ -5,9 +5,12 @@ import (
 
 	"github.com/FabienDeborde/noas_projects/database"
 	"github.com/FabienDeborde/noas_projects/project"
+	"github.com/FabienDeborde/noas_projects/utils/logger"
+
 	"github.com/gofiber/fiber"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"github.com/joho/godotenv"
 )
 
 func setupRoutes(app *fiber.App) {
