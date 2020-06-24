@@ -6,7 +6,7 @@ This is a simple API project to demonstrate basic CRUD operation with Fiber fram
 - [x] Add API documentation
 - [x] Add hot reloading
 - [ ] Setup Clean Architecture folder structure
-- [ ] Setup Remote Database
+- [x] Setup Remote Database
 - [ ] Setup JWT authentication middleware
 - [ ] Setup Hosting
 - [ ] Setup CI/CD (CircleCI?)
