@@ -34,18 +34,16 @@ func initDatabase() {
 
 func main() {
 	app := fiber.New()
-	// app.Use(func(c *fiber.Ctx) {
-	//   // IsWebSocketUpgrade returns true if the client
-	//   // requested upgrade to the WebSocket protocol.
-	//   if websocket.IsWebSocketUpgrade(c) {
-	//     c.Locals("allowed", true)
-	//     c.Next()
-	//   }
-	// })
+
 	initDatabase()
 	defer database.DBConn.Close()
 
 	setupRoutes(app)
+
+	// 404 Handler
+	app.Use(func(c *fiber.Ctx) {
+		c.SendStatus(404) // => 404 "Not Found"
+	})
 
 	app.Listen(3000)
 }
