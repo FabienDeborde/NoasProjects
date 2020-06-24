@@ -16,3 +16,19 @@ func Init() (*zap.Logger, *zap.SugaredLogger) {
 	defer slogger.Sync()
 	return logger, slogger
 }
+
+// Usage examples:
+
+// logger.Info("failed to fetch URL",
+// 	// Structured context as strongly typed Field values.
+// 	zap.String("Prefork", os.Getenv("PREFORK")),
+// 	zap.Int("attempt", 3),
+// 	zap.Duration("backoff", time.Second),
+// )
+
+// slogger.Infow("failed to fetch URL",
+// 	// Structured context as loosely typed key-value pairs.
+// 	"Prefork", os.Getenv("PREFORK"),
+// 	"attempt", 3,
+// 	"backoff", time.Second,
+// )
