@@ -25,10 +25,10 @@ func initDatabase() {
 	if err != nil {
 		panic("Failed to connect to database")
 	}
-	fmt.Println("Databse connection successfully opened")
+	fmt.Println("Database connection successfully opened!")
 
 	database.DBConn.AutoMigrate(&project.Project{})
-	fmt.Println("Databse migrated")
+	fmt.Println("Database migrated!")
 
 }
 
