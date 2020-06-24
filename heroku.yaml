@@ -6,4 +6,4 @@ build:
     - go
 
 run:
-  web: main
+  web: noas_projects
