@@ -16,3 +16,5 @@
 
 # Temporary folder used by Air
 /tmp
+
+.env
