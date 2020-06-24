@@ -7,8 +7,15 @@ github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/denisenkom/go-mssqldb v0.0.0-20191124224453-732737034ffd/go.mod h1:xbL0rPBG9cCiLr28tMa8zpbdarY27NDyej4t/EjAShU=
 github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5/go.mod h1:a2zkGnVExMxdzMo3M0Hi/3sEU+cWnZpSni0O6/Yb/P0=
 github.com/go-sql-driver/mysql v1.5.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
+github.com/gofiber/cors v0.2.0 h1:NcprkYrVR4AdOhHH11M0JZLPtalAxiZDidvVBkGvU4E=
+github.com/gofiber/cors v0.2.0/go.mod h1:HSHnRk7vZJdey6iVf010ZB6K/OqteCIEApKwoUVxVy0=
+github.com/gofiber/fiber v1.10.0/go.mod h1:8083zyrwS9acYIAgpYPbXPW80m57uc8WPzPF3wt1qNk=
+github.com/gofiber/fiber v1.11.0/go.mod h1:yFeAjCJH91bgsVXSRuJ8phno0O6/PcGHvjndFw91Vxs=
 github.com/gofiber/fiber v1.11.1 h1:kAs9RVi1b/2CzgKyq/wNuXau2EIq+BXM4yDAudNOXwc=
 github.com/gofiber/fiber v1.11.1/go.mod h1:yFeAjCJH91bgsVXSRuJ8phno0O6/PcGHvjndFw91Vxs=
+github.com/gofiber/helmet v0.1.0 h1:I2qzb/qDryj3ZWA3raLLPbbDeLoyTxZcRTcv6k3tijY=
+github.com/gofiber/helmet v0.1.0/go.mod h1:czBcnEiEycbukdrypYzSez/yqRbPXRV6Ta/uy4FnFWk=
+github.com/gofiber/utils v0.0.3/go.mod h1:pacRFtghAE3UoknMOUiXh2Io/nLWSUHtQCi/3QASsOc=
 github.com/gofiber/utils v0.0.6 h1:lWuJfXQ06aFPVA2/y7lUw9ahS4TuXhbwXnxKl1D/fuY=
 github.com/gofiber/utils v0.0.6/go.mod h1:pacRFtghAE3UoknMOUiXh2Io/nLWSUHtQCi/3QASsOc=
 github.com/golang-sql/civil v0.0.0-20190719163853-cb61b32ac6fe/go.mod h1:8vg3r2VgvsThLBIFL93Qb5yWzgyZWhEmBwUJWevAkK0=
@@ -43,6 +50,7 @@ github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UV
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
+github.com/valyala/fasthttp v1.13.1/go.mod h1:ol1PCaL0dX20wC0htZ7sYCsvCYmrouYra0zHzaclZhE=
 github.com/valyala/fasthttp v1.14.0 h1:67bfuW9azCMwW/Jlq/C+VeihNpAuJMWkYPBig1gdi3A=
 github.com/valyala/fasthttp v1.14.0/go.mod h1:ol1PCaL0dX20wC0htZ7sYCsvCYmrouYra0zHzaclZhE=
 github.com/valyala/tcplisten v0.0.0-20161114210144-ceec8f93295a/go.mod h1:v3UYOV9WzVtRmSR+PDvWpU/qWl4Wa5LApYYX4ZtKbio=

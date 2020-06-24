@@ -7,8 +7,10 @@ import (
 	"github.com/FabienDeborde/noas_projects/project"
 	"github.com/FabienDeborde/noas_projects/utils/logger"
 
+	"github.com/gofiber/cors"
 	"github.com/gofiber/fiber"
 	"github.com/gofiber/fiber/middleware"
+	"github.com/gofiber/helmet"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/joho/godotenv"
 )
@@ -34,10 +36,13 @@ func main() {
 	// Pass Settings creating a new instance
 	app := fiber.New(&fiber.Settings{
 		Prefork:      false,
-		ServerHeader: "Fiber",
+		ServerHeader: "NoasProjects",
 		BodyLimit:    4 * 1024 * 1024,
 	})
 	app.Use(middleware.Recover())
+	app.Use(middleware.Compress())
+	app.Use(cors.New())
+	app.Use(helmet.New())
 
 	database.Init()
 	database.DBConn.AutoMigrate(&project.Project{})

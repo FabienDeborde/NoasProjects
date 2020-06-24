@@ -8,7 +8,8 @@ This is a simple API project to demonstrate basic CRUD operation with Fiber fram
 - [ ] Setup Clean Architecture folder structure
 - [x] Setup Remote Database
 - [ ] Setup JWT authentication middleware
-- [ ] Setup Hosting
+- [x] Setup Temporary Hosting (Heroku)
+- [ ] Setup Hosting (AWS/GCP?)
 - [ ] Setup CI/CD (CircleCI?)
 - [ ] Setup WebSocket
 - [ ] Add test samples
