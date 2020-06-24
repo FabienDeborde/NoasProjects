@@ -33,7 +33,19 @@ func initDatabase() {
 }
 
 func main() {
-	app := fiber.New()
+	_, slogger := logger.Init()
+
+	err := godotenv.Load()
+	if err != nil {
+		slogger.Fatal("Error loading .env file")
+	}
+
+	// Pass Settings creating a new instance
+	app := fiber.New(&fiber.Settings{
+		Prefork:      false,
+		ServerHeader: "Fiber",
+		BodyLimit:    4 * 1024 * 1024,
+	})
 
 	initDatabase()
 	defer database.DBConn.Close()
