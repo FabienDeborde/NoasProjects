@@ -4,6 +4,7 @@ This is a simple API project to demonstrate basic CRUD operation with Fiber fram
 ### TODO
 - [x] Add simplest API server (using single folder & sql lite)
 - [x] Add API documentation
+- [x] Add hot reloading
 - [ ] Setup Clean Architecture folder structure
 - [ ] Setup Remote Database
 - [ ] Setup JWT authentication middleware
