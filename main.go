@@ -53,7 +53,14 @@ func main() {
 	initDatabase()
 	defer database.DBConn.Close()
 
-	setupRoutes(app)
+	// setupRoutes(app)
+	v1 := app.Group("/api/v1") // /api/v1
+	v1.Get("projects", project.GetProjects)
+	v1.Get("projects/:id", project.GetProject)
+	v1.Post("projects", project.NewProject)
+	v1.Delete("projects/:id", project.DeleteProject)
+	v1.Post("projects/:id/like", project.AddLikeProject)
+	v1.Post("projects/:id/unlike", project.RemoveLikeProject)
 
 	// 404 Handler
 	app.Use(func(c *fiber.Ctx) {
