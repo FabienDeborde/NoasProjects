@@ -2,8 +2,11 @@ package main
 
 import (
 	"os"
+	"strconv"
 
-	"github.com/FabienDeborde/noas_projects/database"
+	database "github.com/FabienDeborde/noas_projects/infrastructure"
+	presenter "github.com/FabienDeborde/noas_projects/presenter/projects"
+
 	"github.com/FabienDeborde/noas_projects/project"
 	"github.com/FabienDeborde/noas_projects/utils/logger"
 
@@ -17,29 +20,39 @@ import (
 
 func projectRoutes(group *fiber.Group) {
 	projects := group.Group("/projects") // /api/v1/projects
-	projects.Get("/", project.GetProjects)
-	projects.Post("/", project.NewProject)
-	projects.Get("/:id", project.GetProject)
-	projects.Delete("/:id", project.DeleteProject)
-	projects.Post("/:id/like", project.AddLikeProject)
-	projects.Post("/:id/unlike", project.RemoveLikeProject)
+	projects.Get("/", presenter.GetProjects)
+	// projects.Post("/", project.NewProject)
+	// projects.Get("/:id", project.GetProject)
+	// projects.Delete("/:id", project.DeleteProject)
+	// projects.Post("/:id/like", project.AddLikeProject)
+	// projects.Post("/:id/unlike", project.RemoveLikeProject)
 }
 
 func main() {
 	_, slogger := logger.Init()
 
+	// TODO: only use .env in development
 	err := godotenv.Load()
 	if err != nil {
 		slogger.Error("Error loading .env file")
 	}
 
+	// Get the PREFORK option from heroku env
+	prefork := os.Getenv("PREFORK")
+	preforkB, err := strconv.ParseBool(prefork)
+	// Verify if heroku provided the port or not
+	if err != nil {
+		slogger.Warn("Couldn't get PREFORK from environment. Switching to default PREFORK = false.")
+		preforkB = false
+	}
+
 	// Pass Settings creating a new instance
 	app := fiber.New(&fiber.Settings{
-		Prefork:      false,
+		Prefork:      preforkB,
 		ServerHeader: "NoasProjects",
 		BodyLimit:    4 * 1024 * 1024,
 	})
-	app.Use(middleware.Recover())
+	app.Use(middleware.Recover()) // TODO: check if it is working?
 	app.Use(middleware.Compress())
 	app.Use(cors.New())
 	app.Use(helmet.New())
@@ -58,12 +71,14 @@ func main() {
 	})
 
 	// Log all registered routes
-	for _, r := range app.Routes() {
-		slogger.Infow("Routes",
-			"Method", r.Method,
-			"Path", r.Path,
-		)
-	}
+	// for _, r := range app.Routes() {
+	// 	if r.Method != "USE" {
+	// 		slogger.Infow("Routes",
+	// 			"Method", r.Method,
+	// 			"Path", r.Path,
+	// 		)
+	// 	}
+	// }
 
 	// Get the PORT from heroku env
 	port := os.Getenv("PORT")

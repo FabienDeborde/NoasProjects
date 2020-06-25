@@ -1,11 +1,12 @@
 package project
 
 import (
-	"github.com/FabienDeborde/noas_projects/database"
+	database "github.com/FabienDeborde/noas_projects/infrastructure"
 	"github.com/gofiber/fiber"
 	"github.com/jinzhu/gorm"
 )
 
+// TODO: add created_by, updated_by & deleted_by
 type Project struct {
 	gorm.Model
 	Title       string `json:"title" binding:"required" gorm:"type:varchar(100);"`
@@ -56,6 +57,7 @@ func DeleteProject(c *fiber.Ctx) {
 	db.Delete(&project)
 	c.Send("Project successfully deleted.")
 }
+
 func AddLikeProject(c *fiber.Ctx) {
 	id := c.Params(("id"))
 	db := database.DBConn

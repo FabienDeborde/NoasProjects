@@ -21,6 +21,7 @@ func Init() {
 		fmt.Print(e)
 	}
 
+	// TODO: use utils getenv
 	dbHost := os.Getenv("DB_HOST")
 	dbPort := os.Getenv("DB_PORT")
 	dbName := os.Getenv("DB_NAME")
@@ -36,6 +37,7 @@ func Init() {
 		panic("Failed to connect to database")
 	}
 	DBConn = conn
+
 	slogger.Infow("Database connection successfully opened!")
 
 	slogger.Infow("Database migrated!")
