@@ -2,31 +2,14 @@ package main
 
 import (
 	"os"
-	"strconv"
 
-	database "github.com/FabienDeborde/noas_projects/infrastructure"
-	presenter "github.com/FabienDeborde/noas_projects/presenter/projects"
+	"github.com/FabienDeborde/noas_projects/app"
 
-	"github.com/FabienDeborde/noas_projects/project"
-	"github.com/FabienDeborde/noas_projects/utils/logger"
+	"github.com/FabienDeborde/noas_projects/app/utils/logger"
 
-	"github.com/gofiber/cors"
-	"github.com/gofiber/fiber"
-	"github.com/gofiber/fiber/middleware"
-	"github.com/gofiber/helmet"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/joho/godotenv"
 )
-
-func projectRoutes(group *fiber.Group) {
-	projects := group.Group("/projects") // /api/v1/projects
-	projects.Get("/", presenter.GetProjects)
-	// projects.Post("/", project.NewProject)
-	// projects.Get("/:id", project.GetProject)
-	// projects.Delete("/:id", project.DeleteProject)
-	// projects.Post("/:id/like", project.AddLikeProject)
-	// projects.Post("/:id/unlike", project.RemoveLikeProject)
-}
 
 func main() {
 	_, slogger := logger.Init()
@@ -37,48 +20,10 @@ func main() {
 		slogger.Error("Error loading .env file")
 	}
 
-	// Get the PREFORK option from heroku env
-	prefork := os.Getenv("PREFORK")
-	preforkB, err := strconv.ParseBool(prefork)
-	// Verify if heroku provided the port or not
+	app, err := app.Init()
 	if err != nil {
-		slogger.Warn("Couldn't get PREFORK from environment. Switching to default PREFORK = false.")
-		preforkB = false
+		slogger.Error("Error")
 	}
-
-	// Pass Settings creating a new instance
-	app := fiber.New(&fiber.Settings{
-		Prefork:      preforkB,
-		ServerHeader: "NoasProjects",
-		BodyLimit:    4 * 1024 * 1024,
-	})
-	app.Use(middleware.Recover()) // TODO: check if it is working?
-	app.Use(middleware.Compress())
-	app.Use(cors.New())
-	app.Use(helmet.New())
-
-	database.Init()
-	database.DBConn.AutoMigrate(&project.Project{})
-	defer database.DBConn.Close()
-
-	// setupRoutes(app)
-	v1 := app.Group("/api/v1") // /api/v1
-	projectRoutes(v1)
-
-	// 404 Handler
-	app.Use(func(c *fiber.Ctx) {
-		c.SendStatus(404) // => 404 "Not Found"
-	})
-
-	// Log all registered routes
-	// for _, r := range app.Routes() {
-	// 	if r.Method != "USE" {
-	// 		slogger.Infow("Routes",
-	// 			"Method", r.Method,
-	// 			"Path", r.Path,
-	// 		)
-	// 	}
-	// }
 
 	// Get the PORT from heroku env
 	port := os.Getenv("PORT")

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/FabienDeborde/noas_projects/utils/logger"
+	"github.com/FabienDeborde/noas_projects/app/utils/logger"
 	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
 

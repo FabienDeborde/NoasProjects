@@ -1,7 +1,7 @@
 package project
 
 import (
-	usecase "github.com/FabienDeborde/noas_projects/domain/usecase/projects"
+	usecase "github.com/FabienDeborde/noas_projects/app/usecase/projects"
 	"github.com/gofiber/fiber"
 )
 
